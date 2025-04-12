@@ -8,11 +8,6 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame } from "@react-three/fiber";
 import gsap from "gsap";
-import { useLoader } from '@react-three/fiber';
-// @ts-expect-error: Casting to GLTFLoader is necessary because of missing type definitions
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-
 
 type SkateboardProps = {
   wheelTextureURLs: string[];
@@ -51,17 +46,9 @@ export function Skateboard({
   constantWheelSpin = false,
   pose = "upright",
 }: SkateboardProps) {
-  const loader = useLoader(GLTFLoader, '/skateboard/skateboard.gltf');
-  useLoader.preload(GLTFLoader, '/skateboard/skateboard.gltf');
-  const model = useLoader(GLTFLoader, '/skateboard/skateboard.gltf');
-
-  useEffect(() => {
-    if (!model) console.error('Model failed to load');
-  }, [model]);
   const wheelRefs = useRef<THREE.Object3D[]>([]);
 
-// @ts-expect-error: Casting to GLTFResult is necessary because useGLTF returns a type that is not compatible with GLTFResult
-const { nodes } = useGLTF("/skateboard.gltf") as GLTFResult;
+  const { nodes } = useGLTF("/skateboard/skateboard.gltf") as GLTFResult;
 
   // Wheel Textures
   const wheelTextures = useTexture(wheelTextureURLs);
@@ -301,4 +288,4 @@ const { nodes } = useGLTF("/skateboard.gltf") as GLTFResult;
   );
 }
 
-useGLTF.preload("/skateboard.gltf");
+useGLTF.preload("/skateboard/skateboard.gltf");
