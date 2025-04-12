@@ -3,6 +3,7 @@ import {Bowlby_One_SC, DM_Mono} from 'next/font/google';
 import { Header } from "@/components/Header";
 import "./globals.css";
 import { SVGFilters } from "@/components/SVGFilters";
+import { Footer } from "@/components/Footer";
 
 const bowlby = Bowlby_One_SC({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
         <main>
           <Header />
         {children}
+        <Footer />
         </main>
         <SVGFilters/>
       </body>
