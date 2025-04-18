@@ -38,10 +38,26 @@ export function CustomizerControlsProvider({
   defaultBolt,
   children,
  }: CustomizerControlsProviderProps) {
-  const {selectedWheel, setWheel} = useState(defaultWheel);
-  const {selectedDeck, setDeck} = useState(defaultDeck);
-  const {selectedTruck, setTruck} = useState(defaultTruck);
-  const {selectedBolt, setBolt} = useState(defaultBolt);
+const [selectedWheel, setSelectedWheel] = useState(defaultWheel);
+const [selectedDeck, setSelectedDeck] = useState(defaultDeck);
+const [selectedTruck, setSelectedTruck] = useState(defaultTruck);
+const [selectedBolt, setSelectedBolt] = useState(defaultBolt);
+
+  const setDeck = (deck: Content.BoardCustomizerDocumentDataDecksItem) => {
+    setSelectedDeck(deck);
+  };
+  
+  const setWheel = (wheel: Content.BoardCustomizerDocumentDataWheelsItem) => {
+    setSelectedWheel(wheel);
+  };
+
+  const setTruck = (truck: Content.BoardCustomizerDocumentDataMetalsItem) => {
+    setSelectedTruck(truck);
+  };
+
+  const setBolt = (bolts: Content.BoardCustomizerDocumentDataMetalsItem) => {
+    setSelectedBolt(bolts);
+  };
 
 
   const value = useMemo(() => {

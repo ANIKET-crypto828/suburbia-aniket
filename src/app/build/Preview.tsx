@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useCustomizerControls } from './context';
 import { Canvas } from '@react-three/fiber';
@@ -22,12 +22,55 @@ type Props = {
 
 export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
   const cameraControls = useRef<CameraControls>(null);
+  const floorRef = useRef<THREE.Mesh>(null); 
   const { selectedWheel, selectedDeck, selectedTruck, selectedBolt } = useCustomizerControls();
 
   const wheelTextureURL = asImageSrc(selectedWheel?.texture) ?? DEFAULT_WHEEL_TEXTURE;
   const deckTextureURL = asImageSrc(selectedDeck?.texture) ?? DEFAULT_DECK_TEXTURE;
   const truckColor = selectedTruck?.color ?? DEFAULT_TRUCK_COLOR;
   const boltColor = selectedBolt?.color ?? DEFAULT_BOLT_COLOR;
+
+  useEffect(() => {
+    setCameraControls(
+      new THREE.Vector3(0, 0.3, 0),
+      new THREE.Vector3(1.5, 0.8, 0)
+    )
+  }, [selectedDeck]);
+
+  useEffect(() => {
+    setCameraControls(
+      new THREE.Vector3(-0.12, 0.29, 0.57),
+      new THREE.Vector3(1, 0.25, 0.9)
+    )
+  }, [selectedTruck]);
+
+  useEffect(() => {
+    setCameraControls(
+      new THREE.Vector3(-0.08, 0.54, 0.64),
+      new THREE.Vector3(0.09, 1, 0.9)
+    )
+  }, [selectedWheel]);
+
+  useEffect(() => {
+    setCameraControls(
+      new THREE.Vector3(-0.25, 0.3, 0.62),
+      new THREE.Vector3(-0.5, 0.35, 0.8)
+    )
+  }, [selectedBolt]);
+
+
+  function setCameraControls(target: THREE.Vector3, pos: THREE.Vector3) {
+    if (!cameraControls.current) return;
+
+    cameraControls.current.setTarget(target.x, target.y, target.z, true);
+    cameraControls.current.setPosition(pos.x, pos.y, pos.z, true);
+  }
+
+  function onCameraControlStart() {
+    if (!cameraControls.current || !floorRef.current || cameraControls.current.colliderMeshes.length > 0) return;
+  
+    cameraControls.current!.colliderMeshes = [floorRef.current];
+  }
 
   return (
     <Canvas camera={{ position: [2.5, 1, 0], fov: 50 }} shadows>
@@ -42,10 +85,12 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
         <color attach="background" args={[ENVIRONMENT_COLOR]} />
         <StageFloor />
 
-        <mesh>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} ref={floorRef}>
           <planeGeometry args={[6, 6]} />
           <meshBasicMaterial visible={false} />
         </mesh>
+
+
         <Skateboard
           wheelTextureURLs={wheelTextureURLs}
           wheelTextureURL={wheelTextureURL}
@@ -55,7 +100,7 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
           boltColor={boltColor}
           pose="side"
         />
-        <CameraControls ref={cameraControls} minDistance={0.2} maxDistance={4} />
+        <CameraControls ref={cameraControls} minDistance={0.2} maxDistance={4} onStart={onCameraControlStart}/>
 
       </Suspense>
       <Preload all />
