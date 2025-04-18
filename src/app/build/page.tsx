@@ -8,6 +8,7 @@ import { CustomizerControlsProvider  } from './context';
 import { asImageSrc, createClient } from '@prismicio/client';
 import Preview from './Preview';
 import Controls from './Controls';
+import Loading from './Loading';
 
 type SearchParams = {
   wheel?: string;
@@ -59,6 +60,7 @@ export default async function Page(props: {searchParams:Promise<SearchParams>}) 
         <ButtonLink href="" color='lime' icon='plus'>Add to cart</ButtonLink>
       </div>
       </CustomizerControlsProvider>
+      <Loading />
     </div>
   )
 }
