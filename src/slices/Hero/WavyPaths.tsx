@@ -10,7 +10,7 @@ import { useIsSafari } from "@/lib/uselsSafari";
 gsap.registerPlugin(useGSAP);
 
 export function WavyPaths() {
-  const isSafari = useIsSafari();
+  const isSafari = useIsSafari(true);
 
   const root = useRef<SVGSVGElement>(null);
 

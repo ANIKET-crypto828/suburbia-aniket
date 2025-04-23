@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bowlby_One_SC, DM_Mono } from "next/font/google";
+
 import "./globals.css";
 import { SVGFilters } from "@/components/SVGFilters";
 import { createClient } from "@prismicio/client";
@@ -28,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   description: settings.data.meta_description,
   openGraph: {
     images: settings.data.fallback_og_image.url ?? undefined,
-  }
+  },
   };
 };
 

@@ -7,7 +7,7 @@ type Props = {
   duration?: number;
 }
 
-export function SlideIn({children, delay=0, duration=.6}: Props) {
+export function SlideIn({children, delay=0, duration= 0.6}: Props) {
 
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -18,7 +18,7 @@ export function SlideIn({children, delay=0, duration=.6}: Props) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          element.style.animation = `slide-in ${duration}s ease-out ${delay}s forwards`;
+          element.style.animation = `slide-in ${duration}s ease ${delay}s forwards`;
           observer.unobserve(element)
         }
       },

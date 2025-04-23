@@ -17,17 +17,22 @@ type SearchParams = {
   bolt?: string;
 }
 
-export default async function Page(props: {searchParams:Promise<SearchParams>}) {
+export default async function Page(props: {searchParams: Promise<SearchParams>;
+}) {
   const client = createClient('suburbia-aniket');
   const customizerSettings = await client.getSingle("board_customizer")
   const { wheels, decks, metals} = customizerSettings.data;
 
   const searchParams = await props.searchParams;
 
-  const defaultWheel = wheels.find((wheel) => wheel.uid === searchParams.wheel) ?? wheels[0];
-  const defaultDeck = decks.find((deck) => deck.uid === searchParams.deck) ?? decks[0];
-  const defaultTruck = metals.find((metal) => metal.uid === searchParams.truck) ?? metals[0];
-  const defaultBolt = metals.find((metal) => metal.uid === searchParams.bolt) ?? metals[0];
+  const defaultWheel = 
+  wheels.find((wheel) => wheel.uid === searchParams.wheel) ?? wheels[0];
+  const defaultDeck = 
+  decks.find((deck) => deck.uid === searchParams.deck) ?? decks[0];
+  const defaultTruck = 
+  metals.find((metal) => metal.uid === searchParams.truck) ?? metals[0];
+  const defaultBolt = 
+  metals.find((metal) => metal.uid === searchParams.bolt) ?? metals[0];
 
   const wheelTextureURLs = wheels.map((texture) => asImageSrc(texture.texture)).filter((url): url is string => Boolean(url));
   const deckTextureURLs = decks.map((texture) => asImageSrc(texture.texture)).filter((url): url is string => Boolean(url));

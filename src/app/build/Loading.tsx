@@ -1,4 +1,5 @@
 "use client"
+
 import { Logo } from "@/components/Logo";
 import { useProgress  } from "@react-three/drei";
 import clsx from "clsx";
@@ -14,7 +15,7 @@ function Loading() {
         LOADING...
       </p>
     </div>
-  )
+  );
 }
 
 export default Loading

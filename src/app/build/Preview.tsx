@@ -34,13 +34,13 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
     setCameraControls(
       new THREE.Vector3(0, 0.3, 0),
       new THREE.Vector3(1.5, 0.8, 0)
-    )
+    );
   }, [selectedDeck]);
 
   useEffect(() => {
     setCameraControls(
       new THREE.Vector3(-0.12, 0.29, 0.57),
-      new THREE.Vector3(1, 0.25, 0.9)
+      new THREE.Vector3(0.1, 0.25, 0.9)
     )
   }, [selectedTruck]);
 
@@ -69,7 +69,7 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
   function onCameraControlStart() {
     if (!cameraControls.current || !floorRef.current || cameraControls.current.colliderMeshes.length > 0) return;
   
-    cameraControls.current!.colliderMeshes = [floorRef.current];
+    cameraControls.current.colliderMeshes = [floorRef.current];
   }
 
   return (
@@ -79,7 +79,7 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
         environmentIntensity={0.6} />
 
         <directionalLight
-        castShadow lookAt={[0 , 0, 0]} position={[1,1,1]} intensity={1.6} />
+        castShadow lookAt={[0 , 0, 0]} position={[1, 1, 1]} intensity={1.6} />
 
         <fog attach="fog" args={[ENVIRONMENT_COLOR, 3, 10]} />
         <color attach="background" args={[ENVIRONMENT_COLOR]} />
@@ -127,7 +127,7 @@ function StageFloor() {
     <mesh
     castShadow
     receiveShadow
-    position={[0, -.005, 0]}
+    position={[0, -0.005, 0]}
     rotation={[-Math.PI / 2, 0, 0]}
     material={material}
     >

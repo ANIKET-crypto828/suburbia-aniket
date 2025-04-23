@@ -7,7 +7,7 @@ import { useIsSafari } from "@/lib/uselsSafari";
 
 
 export function TallLogo({ className, ...props }: SVGProps<SVGSVGElement>) {
-  const isSafari = useIsSafari();
+  const isSafari = useIsSafari(true);
   
   return (
     <svg

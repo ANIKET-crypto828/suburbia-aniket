@@ -8,7 +8,7 @@ interface HotspotProps {
   color?: string;
 }
 
-export default function Hotspot({
+export function Hotspot({
   position,
   isVisible,
   color = "#E6FC6A"
@@ -22,7 +22,7 @@ export default function Hotspot({
   position={position}
 >
   <mesh ref={hotspotRef} visible={isVisible}>
-    <circleGeometry args={[.02, 32]} />
+    <circleGeometry args={[0.02, 32]} />
     <meshStandardMaterial color={color} transparent opacity={1} />
   </mesh>
 
@@ -34,7 +34,7 @@ export default function Hotspot({
     document.body.style.cursor = 'default';
   }}
   >
-    <circleGeometry args={[.03, 32]} />
+    <circleGeometry args={[0.03, 32]} />
     <meshBasicMaterial color={color} />
   </mesh>
 

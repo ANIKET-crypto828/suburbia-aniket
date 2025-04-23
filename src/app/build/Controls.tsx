@@ -155,7 +155,7 @@ function Option({children, selected, imageField, imgixParams, colorField, onClic
       <span className='sr-only'>{children}</span>
     </button>
     </li>
-  )
+  );
 }
 
 export default Controls

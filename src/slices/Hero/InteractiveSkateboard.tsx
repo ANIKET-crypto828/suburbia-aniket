@@ -3,10 +3,10 @@
 import * as THREE from 'three';
 import React, { Suspense, useEffect, useRef } from 'react';
 import { Canvas, ThreeEvent, useThree } from '@react-three/fiber';
-import { ContactShadows, Environment, Html, OrbitControls } from '@react-three/drei';
+import { ContactShadows, Environment, Html } from '@react-three/drei';
 import { Skateboard } from '@/components/Skateboard';
 import gsap from "gsap";
-import Hotspot from './Hotspot';
+import { Hotspot } from './Hotspot';
 import { WavyPaths } from './WavyPaths';
 
 const INITIAL_CAMERA_POSITION = [1.5, 1, 1.4] as const;
@@ -18,7 +18,7 @@ type Props = {
   boltColor : string;
 }
 
-export default function InteractiveSkateboard({
+export function InteractiveSkateboard({
   deckTextureURL,
   wheelTextureURL,
   truckColor,
@@ -62,7 +62,7 @@ function Scene({
   if (!containerRef.current || !originRef.current) return;
 
   gsap.to(containerRef.current.position, {
-    x: .2,
+    x: 0.2,
     duration: 3,
     repeat: -1,
     yoyo: true,
@@ -70,7 +70,7 @@ function Scene({
   });
 
   gsap.to(originRef.current.rotation, {
-    y: Math.PI/64,
+    y: Math.PI / 64,
     duration: 3,
     repeat: -1,
     yoyo: true,
@@ -87,7 +87,7 @@ function Scene({
 
 
   function setZoom(){
-    const scale = Math.max(Math.min(1000/window.innerWidth, 2.2), 1)
+    const scale = Math.max(Math.min(1000 / window.innerWidth, 2.2), 1);
 
     camera.position.x = INITIAL_CAMERA_POSITION[0] * scale;
     camera.position.y = INITIAL_CAMERA_POSITION[1] * scale;
@@ -105,11 +105,11 @@ function Scene({
   const board = containerRef.current;
   const origin = originRef.current;
 
-  if (!board || !origin || !animating) return;
+  if (!board || !origin || animating) return;
 
-  const {name} = event.object;
+  const { name } = event.object;
 
-  setShowHotspot((current) => ({...current, [name]: false}))
+  setShowHotspot((current) => ({ ...current, [name]: false }));
 
   if (name === "back") {
     ollie(board);
@@ -121,54 +121,41 @@ function Scene({
 
 }
 
- function ollie(board:THREE.Group) {
+ function ollie(board: THREE.Group) {
   jumpBoard(board);
  
 
-  gsap.timeline()
-  .to(board.position, {
-    y: .8,
-    duration: .51,
-    ease: "power2.out",
-    delay: .26
-  })
-  .to(board.position, {
-    y: 0,
-    duration: .43,
-    ease: "power2.in",
-  });
-
   gsap
   .timeline()
-  .to(board.rotation, {x:-.6, duration: 0.26, ease: "none"})
-  .to(board.rotation, {x: 0.4, duration: 0.82, ease: "power2.in"})
-  .to(board.rotation, {x: 0, duration: 0.12, ease: "none"})
- }
+  .to(board.rotation, { x: -0.6, duration: 0.26, ease: "none" })
+  .to(board.rotation, { x: 0.4, duration: 0.82, ease: "power2.in" })
+  .to(board.rotation, { x: 0, duration: 0.12, ease: "none" });
+  }
 
- function kickflip(board:THREE.Group) {
+ function kickflip(board: THREE.Group) {
   jumpBoard(board);
 
   gsap
   .timeline()
-  .to(board.rotation, {x: -0.6, duration: 0.26, ease: "none"})
-  .to(board.rotation, {x: 0.4, duration: 0.82, ease: "power2.in"})
+  .to(board.rotation, { x: -0.6, duration: 0.26, ease: "none" })
+  .to(board.rotation, { x: 0.4, duration: 0.82, ease: "power2.in" })
   .to(board.rotation, {z: `+=${Math.PI * 2}`, duration: 0.78, ease: "none"}, 
     0.3
   )
   .to(board.rotation, {x: 0, duration: 0.12, ease: "none"})
  }
 
- function frontside360(board:THREE.Group, origin: THREE.Group) {
+ function frontside360(board: THREE.Group, origin: THREE.Group) {
   jumpBoard(board);
 
   gsap
   .timeline()
-  .to(board.rotation, {x: -0.6, duration: 0.26, ease: "none"})
-  .to(board.rotation, {x: 0.4, duration: 0.82, ease: "power2.in"})
-  .to(origin.rotation, {y: `+=${Math.PI * 2}`, duration: 0.77, ease: "none"}, 
+  .to(board.rotation, { x: -0.6, duration: 0.26, ease: "none" })
+  .to(board.rotation, { x: 0.4, duration: 0.82, ease: "power2.in" })
+  .to(origin.rotation, {y: `+=${Math.PI * 2}`, duration: 0.77, ease: "none", }, 
     0.3
   )
-  .to(board.rotation, {x: 0, duration: 0.14, ease: "none"})
+  .to(board.rotation, { x: 0, duration: 0.14, ease: "none" });
  }
 
 
@@ -177,7 +164,7 @@ function Scene({
   setAnimating(true);
 
 
-  gsap.timeline({onComplete: () => {setAnimating(false)}}).to(board.position, {
+  gsap.timeline({ onComplete: () => setAnimating(false) }).to(board.position, {
     y: 0.8,
     duration: 0.51,
     ease: "power2.out",
@@ -187,13 +174,13 @@ function Scene({
     y: 0,
     duration: 0.43,
     ease: "power2.in",
-  })
+  });
  }
 
   return (
     <group>
-      <OrbitControls />
-      <Environment files={"/hdr/warehouse-256.hdr"}/>
+      {/*<OrbitControls />*/}
+      <Environment files={"/hdr/warehouse-256.hdr"} />
       <group ref={originRef}>
       <group ref={containerRef} position={[-0.25, 0, -0.635]}>
 
@@ -210,13 +197,13 @@ function Scene({
 
       <Hotspot 
       isVisible={!animating && showHotspot.front} 
-      position={[0, .38, 1]}
+      position={[0, 0.38, 1]}
       color='#B8FC39'
       />
 
       <mesh position={[0, 0.27, 0.9]} name="front" onClick={onClick}>
-        <boxGeometry args={[0.6, 0.2, 0.58]}/>
-        <meshStandardMaterial visible={false}/>
+        <boxGeometry args={[0.6, 0.2, 0.58]} />
+        <meshStandardMaterial visible={false} />
       </mesh>
 
       <Hotspot 
@@ -226,8 +213,8 @@ function Scene({
       />
 
       <mesh position={[0, 0.27, 0]} name="middle" onClick={onClick}>
-        <boxGeometry args={[0.6, 0.1, 1.2]}/>
-        <meshStandardMaterial visible={false}/>
+        <boxGeometry args={[0.6, 0.1, 1.2]} />
+        <meshStandardMaterial visible={false} />
       </mesh>
 
       <Hotspot 
@@ -237,14 +224,14 @@ function Scene({
       />
 
       <mesh position={[0, 0.27, -0.9]} name="back" onClick={onClick}>
-        <boxGeometry args={[0.6, 0.2, 0.58]}/>
-        <meshStandardMaterial visible={false}/>
+        <boxGeometry args={[0.6, 0.2, 0.58]} />
+        <meshStandardMaterial visible={false} />
       </mesh>
 
        </group>
        </group>
        </group>
-      <ContactShadows opacity={0.6} position={[0, -.08, 0]}/>
+      <ContactShadows opacity={0.6} position={[0, -0.08, 0]} />
       <group
       rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
       position={[0, -0.09, -0.5]}
