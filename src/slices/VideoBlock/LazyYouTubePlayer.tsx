@@ -12,26 +12,25 @@ export function LazyYouTubePlayer({ youTubeID }: VideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
  
   useEffect(() => {
-  const currentContainer = containerRef.current;
+  const currentContainerRef = containerRef.current;
 
   const observer = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
       setIsInView(true);
-      console.log("in view");
     }
   }, {threshold: 0, rootMargin: "1500px"}
 );
 
-  if (currentContainer) {
-    observer.observe(currentContainer);
+  if (currentContainerRef) {
+    observer.observe(currentContainerRef);
   }
 
   return () => {
-    if (currentContainer) {
-    observer.unobserve(currentContainer);
+    if (currentContainerRef) {
+    observer.unobserve(currentContainerRef);
     }
   };
-  })
+  });
 
   return (
     <div className="relative h-full w-full" ref={containerRef}>

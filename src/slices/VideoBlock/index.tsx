@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { JSX } from "react";
 import { Content, isFilled } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { Bounded } from "@/components/Bounded";
@@ -16,7 +16,7 @@ export type VideoBlockProps = SliceComponentProps<Content.VideoBlockSlice>;
 /**
  * Component for "VideoBlock" Slices.
  */
-const VideoBlock: FC<VideoBlockProps> = ({ slice }) => {
+const VideoBlock = ({ slice }: VideoBlockProps): JSX.Element => {
   return (
     <Bounded
       data-slice-type={slice.slice_type}
@@ -25,7 +25,7 @@ const VideoBlock: FC<VideoBlockProps> = ({ slice }) => {
     >
       <h2 className="sr-only">Video Reel</h2>
       <div className="relative aspect-video">
-        {/*Masks */}
+        {/* Masks */}
         <div
           className={clsx(
             MASK_CLASSES,
@@ -44,12 +44,12 @@ const VideoBlock: FC<VideoBlockProps> = ({ slice }) => {
             "bg-white absolute inset-0 ~translate-x-1/2 ~-translate-y-1/3"
           )}
         />
-        {/**Video */}
+        {/* Video */}
         <div className={clsx(MASK_CLASSES, "relative h-full")}>
           {isFilled.keyText(slice.primary.youtube_video_id) ? 
           (<LazyYouTubePlayer youTubeID={slice.primary.youtube_video_id} />) : null}
           
-          {/*Texture overlay*/}
+          {/* Texture overlay */}
           <Image
             src="/image-texture.png"
             alt=""

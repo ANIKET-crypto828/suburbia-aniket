@@ -33,7 +33,7 @@ const ProductGrid = ({ slice }: ProductGridProps): JSX.Element => {
       </SlideIn>
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {slice.primary.product.map(
-        ({skateboard}) => 
+        ({ skateboard }) => 
       isFilled.contentRelationship(skateboard) && (
         <SkateboardProduct key={skateboard.id} id={skateboard.id} />
       )
